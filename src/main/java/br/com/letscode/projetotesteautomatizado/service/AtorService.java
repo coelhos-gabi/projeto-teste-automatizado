@@ -2,11 +2,15 @@ package br.com.letscode.projetotesteautomatizado.service;
 
 import br.com.letscode.projetotesteautomatizado.exception.AtorNotFoundException;
 import br.com.letscode.projetotesteautomatizado.model.Ator;
+import br.com.letscode.projetotesteautomatizado.model.Filme;
 import br.com.letscode.projetotesteautomatizado.repository.AtorRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
+@AllArgsConstructor
 public class AtorService {
     private AtorRepository atorRepository;
 
@@ -33,5 +37,17 @@ public class AtorService {
             return atorBuscado.get();
         }
         throw new AtorNotFoundException("Ator não encontrado");
+    }
+    public Ator removerAtor(Long id){
+        Ator ator = this.buscarAtorPorId(id);
+        atorRepository.deleteById(id);
+        return ator;
+    }
+
+    public Ator updateAtor(Ator novoAtor) {
+        Ator ator = this.buscarAtorPorId(novoAtor.getId());
+        ator.setNome(novoAtor.getNome());
+
+        return this.adicionarAtor(ator);
     }
 }

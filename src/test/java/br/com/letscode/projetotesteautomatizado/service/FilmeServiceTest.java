@@ -30,13 +30,13 @@ public class FilmeServiceTest {
     @Test
     @DisplayName("deve adicionar um filme no repositorio")
     public void adicionarFilmeNoRepositorioTest() {
-        Ator ator1 = atorRepository.save(Ator.builder().nome("Scarlett Johansson").build());
-        Ator ator2 = atorRepository.save(Ator.builder().nome("Morgan Freeman").build());
+        Ator ator1 = atorRepository.save(Ator.builder().nome("Matheus Nachtergalle").build());
+        Ator ator2 = atorRepository.save(Ator.builder().nome("Selton Mello").build());
 
         Filme filme = Filme.builder()
-                .nome("Lucy")
-                .genero("Ficção Científica")
-                .ano(2014)
+                .nome("O Auto da Compadecida")
+                .genero("Comedia")
+                .ano(2000)
                 .atores(List.of(ator1, ator2))
                 .build();
 
@@ -45,20 +45,22 @@ public class FilmeServiceTest {
         List<Filme> filmes = filmeService.listarFilmes();
 
         Assertions.assertEquals(1, filmes.size());
-        Assertions.assertEquals("Lucy", filmes.get(0).getNome());
+        Assertions.assertEquals("O Auto da Compadecida", filmes.get(0).getNome());
     }
 
     @Test
     @DisplayName("Deve retornar um filme a partir do nome")
     public void procurarFilmePorNomeTest() {
-        Ator ator1 = atorRepository.save(Ator.builder().nome("Scarlett Johansson").build());
-        Ator ator2 = atorRepository.save(Ator.builder().nome("Morgan Freeman").build());
+        Ator ator1 = atorRepository.save(Ator.builder().nome("Silvero Pereira").build());
+        Ator ator2 = atorRepository.save(Ator.builder().nome("Bárbara Colen").build());
+        Ator ator3 = atorRepository.save(Ator.builder().nome("KArine Teles").build());
+        Ator ator4 = atorRepository.save(Ator.builder().nome("Sonia Braga").build());
 
         Filme filme = Filme.builder()
-                .nome("Lucy")
-                .genero("Ficção Científica")
-                .ano(2014)
-                .atores(List.of(ator1, ator2))
+                .nome("Bacurau")
+                .genero("Thriller/Drama")
+                .ano(2019)
+                .atores(List.of(ator1, ator2, ator3, ator4))
                 .build();
 
         filmeService.adicionarFilme(filme);
@@ -71,13 +73,14 @@ public class FilmeServiceTest {
     @Test
     @DisplayName("Deve remover um filme do repositório")
     public void removerFilmeTest(){
-        Ator ator1 = atorRepository.save(Ator.builder().nome("Scarlett Johansson").build());
-        Ator ator2 = atorRepository.save(Ator.builder().nome("Morgan Freeman").build());
+        Ator ator1 = atorRepository.save(Ator.builder().nome("Fernanda Montenegro").build());
+        Ator ator2 = atorRepository.save(Ator.builder().nome("Vinicius de Oliveira").build());
+        Ator ator3 = atorRepository.save(Ator.builder().nome("Marilia Pera").build());
 
         Filme filme = Filme.builder()
-                .nome("Lucy")
-                .genero("Ficção Científica")
-                .ano(2014)
+                .nome("Central do Brasil")
+                .genero("Drama")
+                .ano(1998)
                 .atores(List.of(ator1, ator2))
                 .build();
 
@@ -90,10 +93,39 @@ public class FilmeServiceTest {
 
     @Test
     @DisplayName("Deve lançar exceção com id inválida")
-    public void buscarPorIdTest(){
+    public void buscarFilmePorIdTest(){
         var exception = Assertions.assertThrows(FilmeNotFoundException.class,
                 () -> filmeService.buscarFilmePorId(7L));
 
         Assertions.assertEquals(exception.getReason(),"Filme não encontrado");
+    }
+
+    @Test
+    @DisplayName("Deve atualizar o cadastro de um filme")
+    void updateFilme() {
+        Ator ator1 = atorRepository.save(Ator.builder().nome("Virginia Cavendish").build());
+        Ator ator2 = atorRepository.save(Ator.builder().nome("Debora Falabella").build());
+
+        Filme filme = Filme.builder()
+                .id(1L)
+                .nome("Lisbela e o Prisioneiro")
+                .genero("Romance/Comedia")
+                .ano(200)
+                .atores(List.of(ator1, ator2))
+                .build();
+
+        filmeService.adicionarFilme(filme);
+
+        Filme novoFilme = Filme.builder()
+                .id(1L)
+                .nome("Lisbela e o Prisioneiro")
+                .genero("Romance/Comedia")
+                .ano(2003)
+                .atores(List.of(ator1, ator2))
+                .build();
+
+        filmeService.updateFilme(novoFilme);
+        var filmeAtualizado = filmeService.buscarFilmePorId(1L);
+        Assertions.assertEquals(novoFilme.getAno(),filmeAtualizado.getAno());
     }
 }

@@ -44,4 +44,14 @@ public class FilmeService {
         filmeRepository.deleteById(id);
         return filme;
     }
+
+    public Filme updateFilme(Filme novoFilme) {
+        Filme filme = this.buscarFilmePorId(novoFilme.getId());
+        filme.setNome(novoFilme.getNome());
+        filme.setGenero(novoFilme.getGenero());
+        filme.setAno(novoFilme.getAno());
+        filme.setAtores(novoFilme.getAtores());
+
+        return this.adicionarFilme(filme);
+    }
 }
