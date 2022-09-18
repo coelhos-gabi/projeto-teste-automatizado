@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Filmes</title>
 </head>
 <body>
 <h1>Banco de Filmes</h1>
-<table>
+<table border="solid">
     <tr>
         <th>Nome</th>
         <th>Genero</th>
@@ -14,14 +14,15 @@
         <th>Atores</th>
     </tr>
     <tr th:each="filme : ${filmes}">
-        <th>
-            <td><span name="nome" th:text="${filme.nome}"></span></td>
-            <td><span name="genero" th:text="${filme.genero}"></span></td>
-            <td><span name="ano" th:text="${filme.ano}"></span></td>
-            <td><span name="atores" th:text="${filme.atores}"></span></td>
-        </th>
+        <td name="nome" th:text="${filme.nome}"></td>
+        <td name="genero" th:text="${filme.genero}"></td>
+        <td name="ano" th:text="${filme.ano}"></td>
+        <td name="atores" th:each="ator:${filme.atores}" th:text="${ator.nome}"></td>
     </tr>
 </table>
-
+    <ol>
+        <li><a th:href="@{~/create-filme}" id="linkFilme">Cadastrar Filme</a></li>
+        <li><a th:href="@{~/create-ator}" id="linkAtor">Cadastrar Ator/Atriz</a></li>
+    </ol>
 </body>
 </html>

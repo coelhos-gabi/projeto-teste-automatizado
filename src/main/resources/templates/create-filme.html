@@ -6,21 +6,21 @@
 </head>
 <body>
 <form action="#" th:action="@{/save-filme}" th:object="${filme}" method="post">
-    <label name="nome">Título</label>
-    <input name="nome"th:field="*{nome}" placeholder="Título...">
+    <label>Título</label>
+    <input name="nome" th:field="*{nome}" placeholder="Título...">
     <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
 
-    <label name="genero">Gênero</label>
+    <label>Gênero</label>
     <input name="genero"th:field="*{genero}" placeholder="Gênero...">
 
-    <label name="ano">Ano</label>
+    <label>Ano</label>
     <input name="ano"th:field="*{ano}" placeholder="Ano...">
     <div th:if="${#fields.hasErrors('ano')}" th:errors="*{ano}"></div>
 
-    <label name="atores">Elenco</label>
+    <label>Elenco</label>
     <div th:each="ator, atorStat: *{atores}">
-        <select th:field="*{atores[__${atorStat.index}__]}">
-            <option th:each="ator:${atores}" th:value="${ator.id}" th:text="${ator.nome}">
+        <select th:field="*{atores[__${atorStat.index}__]}" name="dropAtores">
+            <option th:each="ator:${atores}" th:value="${ator.id}" th:text="${ator.nome}" name="optionAtores">
             </option>
         </select>
     </div>

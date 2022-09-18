@@ -2,9 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Cadastro de Atores</title>
 </head>
 <body>
+    <form action="#" th:action="@{/save-ator}" th:object="${ator}" method="post">
+        <label>Nome do Ator/Atriz</label>
+        <input name="nome" th:field="*{nome}"/>
+        <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
 
+        <input type="submit" id="submitButton" th:value="Salvar">
+        <input type="reset" id="resetButton" th:value="Resetar">
+
+    </form>
 </body>
 </html>

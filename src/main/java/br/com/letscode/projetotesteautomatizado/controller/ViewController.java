@@ -31,11 +31,11 @@ public class ViewController {
     @GetMapping("/create-filme")
     public String createFilme(Model model){
         Filme filme = new Filme();
-        filme.setAtores(List.of(new Ator(),new Ator(),new Ator(),new Ator()));
+        filme.setAtores(List.of(new Ator(),new Ator()));
 
         model.addAttribute("filme", filme);
         model.addAttribute("atores", atorService.listarAtores());
-        return "home";
+        return "create-filme";
     }
 
     @GetMapping("/create-ator")
@@ -47,7 +47,7 @@ public class ViewController {
     @PostMapping("/save-filme")
     public String save(@Valid Filme filme, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "create";
+            return "create-filme";
         }
         filmeService.adicionarFilme(filme);
         return "redirect:/home";
@@ -56,7 +56,7 @@ public class ViewController {
     @PostMapping("/save-ator")
     public String saveComposto(@Valid Ator ator, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "create";
+            return "create-ator";
         }
         atorService.adicionarAtor(ator);
         return "redirect:/home";
