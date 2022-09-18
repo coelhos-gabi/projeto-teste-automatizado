@@ -2,7 +2,6 @@ package br.com.letscode.projetotesteautomatizado.service;
 
 import br.com.letscode.projetotesteautomatizado.exception.AtorNotFoundException;
 import br.com.letscode.projetotesteautomatizado.model.Ator;
-import br.com.letscode.projetotesteautomatizado.model.Filme;
 import br.com.letscode.projetotesteautomatizado.repository.AtorRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,17 +10,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
-
 @SpringBootTest
-class AtorServiceTest {
+public class AtorServiceTest {
     @Autowired
     private AtorService atorService;
     @Autowired
     private AtorRepository atorRepository;
 
     @BeforeEach
-    public void restaurarRepository(){
+    public void setUp(){
         atorRepository.deleteAll();
     }
 
@@ -41,7 +38,7 @@ class AtorServiceTest {
         Ator ator = Ator.builder().nome("Jackie Chan").build();
         var atorInserido = atorService.adicionarAtor(ator);
 
-        var atorBuscado = atorService.buscarAtorPorId(1L);
+        var atorBuscado = atorService.buscarAtorPorId(atorInserido.getId());
 
         Assertions.assertEquals(atorInserido.getNome(), atorBuscado.getNome());
     }
@@ -101,11 +98,11 @@ class AtorServiceTest {
 
     @Test
     @DisplayName("Deve remover um ator do repositorio")
-    void removerAtor() {
+    void removerAtorTest() {
         Ator ator = Ator.builder().nome("Fernanda Montenegro").build();
         atorService.adicionarAtor(ator);
 
-        atorService.removerAtor(1L);
+        atorService.removerAtor(ator.getId());
         var atores = atorService.listarAtores();
 
         Assertions.assertEquals(0, atores.size());
@@ -113,13 +110,14 @@ class AtorServiceTest {
 
     @Test
     @DisplayName("Deve atualizar o cadastro de um ator")
-    void updateFilme() {
-        Ator ator = atorRepository.save(Ator.builder().nome("Virginia Cavendish").build());
-        atorService.adicionarAtor(ator);
+    void updateAtorTest() {
+        Ator ator = Ator.builder().nome("Jackie Chan").build();
+        Ator atorInserido = atorService.adicionarAtor(ator);
 
-        var novoAtor = Ator.builder().id(1L).nome("Debora Falabella").build();
+
+        var novoAtor = Ator.builder().id(atorInserido.getId()).nome("Debora Falabella").build();
         atorService.updateAtor(novoAtor);
         var atorAtualizado = atorService.buscarAtorPorId(1L);
-        Assertions.assertEquals(novoAtor.getNome(),atorAtualizado.getNome());
+        Assertions.assertEquals("Debora Falabella", atorAtualizado.getNome());
     }
 }

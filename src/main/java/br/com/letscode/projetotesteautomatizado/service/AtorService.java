@@ -2,7 +2,6 @@ package br.com.letscode.projetotesteautomatizado.service;
 
 import br.com.letscode.projetotesteautomatizado.exception.AtorNotFoundException;
 import br.com.letscode.projetotesteautomatizado.model.Ator;
-import br.com.letscode.projetotesteautomatizado.model.Filme;
 import br.com.letscode.projetotesteautomatizado.repository.AtorRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
