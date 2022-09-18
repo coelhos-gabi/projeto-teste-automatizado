@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Banco de Filmes</h1>
+<table>
+    <tr>
+        <th>Nome</th>
+        <th>Genero</th>
+        <th>Ano</th>
+        <th>Atores</th>
+    </tr>
+    <tr th:each="filme : ${filmes}">
+        <th>
+            <td><span name="nome" th:text="${filme.nome}"></span></td>
+            <td><span name="genero" th:text="${filme.genero}"></span></td>
+            <td><span name="ano" th:text="${filme.ano}"></span></td>
+            <td><span name="atores" th:text="${filme.atores}"></span></td>
+        </th>
+    </tr>
+</table>
+
+</body>
+</html>

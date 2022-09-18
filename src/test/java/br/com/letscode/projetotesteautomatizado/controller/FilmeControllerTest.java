@@ -1,6 +1,5 @@
 package br.com.letscode.projetotesteautomatizado.controller;
 
-import br.com.letscode.projetotesteautomatizado.model.Ator;
 import br.com.letscode.projetotesteautomatizado.model.Filme;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -9,12 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -28,7 +23,7 @@ class FilmeControllerTest {
 
     @Test
     @DisplayName("Deve retornar status 201-Created")
-    void cadastrarFilmeStatusTest() {
+    public void cadastrarFilmeStatusTest() {
 
         Filme filme = Filme.builder().nome("Orfeu").genero("Drama").ano(1999).build();
 
@@ -129,10 +124,19 @@ class FilmeControllerTest {
     @Test
     @DisplayName("Deve retornar status 200-OK ao deletar")
     void removerFilmeStatusTest() {
-    }
+        long id = 1L;
 
-    @Test
-    @DisplayName("Deve retornar o filme que foi removido")
-    void removerFilmeRetornoTest() {
+        Filme filme = Filme.builder().nome("Cidade de Deus").genero("Drama")
+                .ano(2002).build();
+        this.testRestTemplate.postForEntity("http://localhost:" + port + "/filmes",
+                filme, Filme.class);
+
+        this.testRestTemplate.delete("http://localhost:" + port + "/filmes/" +
+                id, filme, Filme.class);
+
+        var listaFilmes = this.testRestTemplate.getForEntity("http://localhost:" +
+                port + "/filmes", Filme[].class);
+
+        Assertions.assertEquals(OK, listaFilmes.getStatusCode());
     }
 }

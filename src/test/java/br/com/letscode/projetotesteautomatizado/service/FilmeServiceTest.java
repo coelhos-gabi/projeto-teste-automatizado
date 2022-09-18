@@ -5,7 +5,10 @@ import br.com.letscode.projetotesteautomatizado.model.Ator;
 import br.com.letscode.projetotesteautomatizado.model.Filme;
 import br.com.letscode.projetotesteautomatizado.repository.AtorRepository;
 import br.com.letscode.projetotesteautomatizado.repository.FilmeRepository;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -127,5 +130,25 @@ public class FilmeServiceTest {
         filmeService.updateFilme(novoFilme);
         var filmeAtualizado = filmeService.buscarFilmePorId(1L);
         Assertions.assertEquals(novoFilme.getAno(),filmeAtualizado.getAno());
+    }
+
+    @Test
+    @DisplayName("Deve retornar os filmes")
+    void listarTodosFilmes(){
+
+        Ator ator1 = atorRepository.save(Ator.builder().nome("Douglas Silva").build());
+        Ator ator2 = atorRepository.save(Ator.builder().nome("Alexandre Rodrigues").build());
+
+        Filme filme = Filme.builder()
+                .nome("Cidade de Deus")
+                .genero("Drama")
+                .ano(2002)
+                .atores(List.of(ator1, ator2))
+                .build();
+
+        filmeService.adicionarFilme(filme);
+
+        var listaFilmes = filmeService.listarFilmes();
+        Assertions.assertEquals(1,listaFilmes.size());
     }
 }

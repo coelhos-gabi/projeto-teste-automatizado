@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Filmes</title>
+</head>
+<body>
+<form action="#" th:action="@{/save-filme}" th:object="${filme}" method="post">
+    <label name="nome">Título</label>
+    <input name="nome"th:field="*{nome}" placeholder="Título...">
+    <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
+
+    <label name="genero">Gênero</label>
+    <input name="genero"th:field="*{genero}" placeholder="Gênero...">
+
+    <label name="ano">Ano</label>
+    <input name="ano"th:field="*{ano}" placeholder="Ano...">
+    <div th:if="${#fields.hasErrors('ano')}" th:errors="*{ano}"></div>
+
+    <label name="atores">Elenco</label>
+    <div th:each="ator, atorStat: *{atores}">
+        <select th:field="*{atores[__${atorStat.index}__]}">
+            <option th:each="ator:${atores}" th:value="${ator.id}" th:text="${ator.nome}">
+            </option>
+        </select>
+    </div>
+    <fieldset>
+        <input type="submit" id="submitButton" value="Salvar">
+        <input type="submit" id="resetButton" value="Resetar">
+    </fieldset>
+</form>
+</body>
+</html>
